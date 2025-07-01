@@ -23,7 +23,7 @@ class AttendeePolicy
      */
     public function view(User $user, Attendee $attendee): bool
     {
-        return $user->id === $attendee->event->user_id;
+        return $user->id == $attendee->event->user_id;
     }
 
     /**
@@ -31,7 +31,7 @@ class AttendeePolicy
      */
     public function create(User $user, Attendee $attendee): bool
     {
-        return $user->id === $attendee->event->user_id;
+        return $user->id == $attendee->event->user_id;
     }
 
     /**
@@ -39,7 +39,7 @@ class AttendeePolicy
      */
     public function update(User $user, Attendee $attendee): bool
     {
-        return $user->id === $attendee->event->user_id;
+        return $user->id == $attendee->event->user_id;
     }
 
     /**
@@ -47,6 +47,6 @@ class AttendeePolicy
      */
     public function delete(User $user, Attendee $attendee): bool
     {
-        return $user->id === $attendee->event->user_id;
+        return $user->id == $attendee->event->user_id;
     }
 }
