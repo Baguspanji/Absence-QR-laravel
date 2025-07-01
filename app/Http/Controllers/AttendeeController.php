@@ -178,7 +178,13 @@ class AttendeeController extends Controller
      */
     public function destroy(Event $event, Attendee $attendee)
     {
-        $this->authorize('update', $event);
+        // First check if the attendee belongs to this event
+        if ($attendee->event_id !== $event->id) {
+            abort(404);
+        }
+
+        // Then check if the user has permission
+        $this->authorize('delete', $attendee);
 
         $attendee->delete();
 
