@@ -41,70 +41,77 @@
                     &larr; {{ __('Kembali ke Acara') }}
                 </a>
 
-                <div class="flex space-x-2">
-                    <a href="#" onclick="printQR()"
+                {{-- <div class="flex space-x-2">
+                    <button type="button" onclick="printQR()"
                         class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
                         {{ __('Cetak') }}
-                    </a>
-                </div>
+                    </button>
+                </div> --}}
             </div>
         </div>
     </div>
 
-    <script>
-        function copyToClipboard() {
-            const url = "{{ $event->getAttendanceUrl() }}";
-            navigator.clipboard.writeText(url).then(function() {
-                alert("{{ __('URL disalin ke clipboard!') }}");
-            });
-        }
+    @push('scripts')
+        <script>
+            function copyToClipboard() {
+                const url = "{{ $event->getAttendanceUrl() }}";
 
-        function printQR() {
-            const content = document.querySelector('.bg-white');
-            const printWindow = window.open('', '_blank');
+                // Try using the clipboard API with fallback
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(url)
+                        .then(function() {
+                            showToast("{{ __('URL disalin ke clipboard!') }}");
+                        })
+                        .catch(function() {
+                            // Fallback method
+                            fallbackCopyToClipboard(url);
+                        });
+                } else {
+                    // Fallback for browsers without clipboard API
+                    fallbackCopyToClipboard(url);
+                }
+            }
 
-            const event = @json($event);
-            const startDate = "{{ $event->start_date->format('d M Y, H:i') }}";
+            // Fallback copy method using temporary input element
+            function fallbackCopyToClipboard(text) {
+                const textArea = document.createElement("textarea");
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
 
-            // Get QR code from the page
-            const qrCode = document.querySelector('.p-2.bg-white.rounded-lg').innerHTML;
-            const qrCodeUrl = "{{ $event->getAttendanceUrl() }}";
+                try {
+                    document.execCommand('copy');
+                    showToast("{{ __('URL disalin ke clipboard!') }}");
+                } catch (err) {
+                    console.error('Unable to copy to clipboard', err);
+                    alert("{{ __('Tidak dapat menyalin URL. Silakan salin manual.') }}");
+                }
 
-            printWindow.document.write(`
-                    <html>
-                        <head>
-                            <title>${event.name} - QR Code</title>
-                            <style>
-                                body { font-family: Arial, sans-serif; text-align: center; }
-                                .container { margin: 20px auto; max-width: 400px; }
-                                h1 { margin-bottom: 5px; }
-                                p { margin: 5px 0; color: #666; }
-                                .qr-container { margin: 30px auto; }
-                            </style>
-                        </head>
-                        <body>
-                            <div class="container">
-                                <h1>${event.name}</h1>
-                                <p>${startDate}</p>
-                                @if ($event->location)
-                                    <p>${event.location}</p>
-                                @endif
-                                <div class="qr-container">
-                                    ${qrCode}
-                                </div>
-                                <p>Pindai untuk menandai kehadiran</p>
-                                <p style="margin-top: 20px; font-size: 12px;">${qrCodeUrl}</p>
-                            </div>
-                        </body>
-                    </html>
-                `);
+                document.body.removeChild(textArea);
+            }
 
-            printWindow.document.close();
-            printWindow.focus();
-            setTimeout(function() {
-                printWindow.print();
-                printWindow.close();
-            }, 500);
-        }
-    </script>
+            // Display a toast notification instead of an alert
+            function showToast(message, isError = false) {
+                const toast = document.createElement('div');
+                toast.innerText = message;
+                const bgColor = isError ? '#e74c3c' : '#333';
+                toast.style.cssText =
+                    `position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+                    background: ${bgColor}; color: white; padding: 10px 20px; border-radius: 4px;
+                    z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.2);`;
+                document.body.appendChild(toast);
+
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    toast.style.transition = 'opacity 0.5s';
+                    setTimeout(() => document.body.removeChild(toast), 500);
+                }, isError ? 4000 : 2000);
+            }
+
+            function printQR() {
+                //
+            }
+        </script>
+    @endpush
 </x-layouts.app>
