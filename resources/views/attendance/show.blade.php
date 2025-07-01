@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ $event->name }} - {{ __('Attendance') }}</title>
+    <title>{{ $event->name }} - {{ __('Absensi') }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -48,22 +48,22 @@
                         @if ($pendingAttendees->isEmpty())
                             <div class="text-center py-8">
                                 <p class="text-lg font-semibold text-gray-700 dark:text-gray-300">
-                                    {{ __('All attendees have checked in!') }}</p>
+                                    {{ __('Semua peserta telah melakukan check-in!') }}</p>
                                 <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                                    {{ __('There are no more attendees waiting to check in.') }}</p>
+                                    {{ __('Tidak ada lagi peserta yang menunggu untuk check-in.') }}</p>
                             </div>
                         @else
                             <div class="mb-4">
                                 <label for="search"
-                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('Search your name') }}:</label>
-                                <input type="text" id="search" placeholder="Type your name here..."
+                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('Cari nama Anda') }}:</label>
+                                <input type="text" id="search" placeholder="Ketik nama Anda di sini..."
                                     class="w-full border-gray-300 dark:border-neutral-700 dark:bg-neutral-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
                                     onkeyup="searchAttendees()">
                             </div>
 
                             <div class="relative max-h-[400px] overflow-y-auto mt-4" id="attendees-list">
                                 <h3 class="text-md font-medium text-gray-700 dark:text-gray-300 mb-3">
-                                    {{ __('Select your name from the list') }}:</h3>
+                                    {{ __('Pilih nama Anda dari daftar') }}:</h3>
 
                                 <div class="space-y-2">
                                     @foreach ($pendingAttendees as $attendee)
@@ -88,7 +88,7 @@
         <footer class="bg-white dark:bg-neutral-800 shadow-inner py-4">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <p class="text-center text-sm text-gray-500 dark:text-gray-400">
-                    &copy; {{ date('Y') }} {{ config('app.name') }}. {{ __('All rights reserved.') }}
+                    &copy; {{ date('Y') }} {{ config('app.name') }}. {{ __('Hak Cipta Dilindungi.') }}
                 </p>
             </div>
         </footer>
@@ -99,7 +99,7 @@
         <div class="bg-white dark:bg-neutral-800 rounded-lg max-w-md w-full mx-4">
             <div class="p-6">
                 <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4" id="modalTitle">
-                    {{ __('Confirm Attendance') }}</h3>
+                    {{ __('Konfirmasi Kehadiran') }}</h3>
                 <p class="text-gray-600 dark:text-gray-400 mb-6" id="modalMessage"></p>
 
                 <form id="attendanceForm" method="POST" action="">
@@ -109,11 +109,11 @@
                     <div class="flex justify-end space-x-3">
                         <button type="button" onclick="closeModal()"
                             class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-neutral-700">
-                            {{ __('Cancel') }}
+                            {{ __('Batal') }}
                         </button>
                         <button type="submit"
                             class="px-4 py-2 bg-blue-600 border border-transparent rounded-md text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            {{ __('Confirm') }}
+                            {{ __('Konfirmasi') }}
                         </button>
                     </div>
                 </form>
@@ -139,8 +139,8 @@
 
         function confirmAttendance(id, name) {
             document.getElementById('attendeeId').value = id;
-            document.getElementById('modalMessage').innerText = "{{ __('You will be marked as present as') }} " + name +
-                ". {{ __('Continue?') }}";
+            document.getElementById('modalMessage').innerText = "{{ __('Anda akan ditandai hadir sebagai') }} " + name +
+                ". {{ __('Lanjutkan?') }}";
             document.getElementById('attendanceForm').action =
                 "{{ route('attendance.mark-present', $event->qr_code_token) }}";
             document.getElementById('confirmationModal').classList.replace('hidden', 'flex');

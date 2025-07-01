@@ -28,8 +28,7 @@
                                         viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    {{ __('Ends') }}: {{ $event->end_date->format('M d, Y - H:i') }}
+                                    </svg>                                            {{ __('Berakhir') }}: {{ $event->end_date->format('M d, Y - H:i') }}
                                 </span>
                             @endif
                             @if ($event->location)
@@ -61,19 +60,19 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
                             </svg>
-                            {{ __('QR Code') }}
+                            {{ __('Kode QR') }}
                         </a>
                         <a href="{{ route('events.edit', $event) }}"
                             class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-md text-sm">
                             {{ __('Edit') }}
                         </a>
                         <form action="{{ route('events.destroy', $event) }}" method="POST" class="inline"
-                            onsubmit="return confirm('{{ __('Are you sure you want to delete this event? This action cannot be undone.') }}');">
+                            onsubmit="return confirm('{{ __('Apakah Anda yakin ingin menghapus acara ini? Tindakan ini tidak dapat dibatalkan.') }}');">
                             @csrf
                             @method('DELETE')
                             <button type="submit"
                                 class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md text-sm">
-                                {{ __('Delete') }}
+                                {{ __('Hapus') }}
                             </button>
                         </form>
                     </div>
@@ -84,14 +83,14 @@
         <div class="mt-8 bg-white shadow-sm rounded-lg overflow-hidden dark:bg-neutral-800">
             <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
                 <div>
-                    <h2 class="text-xl font-semibold text-gray-900 dark:text-white">{{ __('Attendees') }}</h2>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">{{ __('Manage attendees for this event') }}</p>
+                    <h2 class="text-xl font-semibold text-gray-900 dark:text-white">{{ __('Peserta') }}</h2>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">{{ __('Kelola peserta untuk acara ini') }}</p>
                 </div>
 
                 <div class="flex space-x-2">
                     <a href="{{ route('attendees.create', $event) }}"
                         class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm">
-                        {{ __('Add Attendee') }}
+                        {{ __('Tambah Peserta') }}
                     </a>
                 </div>
             </div>
@@ -99,7 +98,7 @@
             <div class="p-6">
                 <div class="mb-4 flex items-center justify-between">
                     <div class="text-sm text-gray-600 dark:text-gray-400">
-                        {{ __('Total Attendees') }}: {{ $totalCount }} | {{ __('Checked In') }}:
+                        {{ __('Total Peserta') }}: {{ $totalCount }} | {{ __('Telah Check-in') }}:
                         {{ $checkedInCount }}
                         @if ($totalCount > 0)
                             ({{ round(($checkedInCount / $totalCount) * 100) }}%)
@@ -114,7 +113,7 @@
                                 class="block w-full text-sm text-gray-900 border border-gray-300 rounded-md cursor-pointer bg-white dark:text-gray-400 dark:bg-neutral-900 dark:border-gray-700 focus:outline-none">
                             <button type="submit"
                                 class="px-3 py-1 bg-gray-600 hover:bg-gray-700 text-white rounded-md text-sm">
-                                {{ __('Import') }}
+                                {{ __('Impor') }}
                             </button>
                         </form>
                     </div>
@@ -128,14 +127,14 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                         </svg>
-                        <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">{{ __('No attendees') }}
+                        <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">{{ __('Tidak ada peserta') }}
                         </h3>
                         <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                            {{ __('Add attendees to your event.') }}</p>
+                            {{ __('Tambahkan peserta ke acara Anda.') }}</p>
                         <div class="mt-6">
                             <a href="{{ route('attendees.create', $event) }}"
                                 class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700">
-                                {{ __('Add Attendee') }}
+                                {{ __('Tambah Peserta') }}
                             </a>
                         </div>
                     </div>
@@ -146,11 +145,11 @@
                                 <tr>
                                     <th scope="col"
                                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        {{ __('Name') }}
+                                        {{ __('Nama') }}
                                     </th>
                                     <th scope="col"
                                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        {{ __('Contact') }}
+                                        {{ __('Kontak') }}
                                     </th>
                                     <th scope="col"
                                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
@@ -158,7 +157,7 @@
                                     </th>
                                     <th scope="col"
                                         class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        {{ __('Actions') }}
+                                        {{ __('Aksi') }}
                                     </th>
                                 </tr>
                             </thead>
@@ -183,25 +182,25 @@
                                             @if ($attendee->hasCheckedIn())
                                                 <span
                                                     class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">
-                                                    {{ __('Checked in at') }}
+                                                    {{ __('Check-in pada') }}
                                                     {{ $attendee->attendance_time->format('H:i') }}
                                                 </span>
                                             @else
                                                 <span
                                                     class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
-                                                    {{ __('Not checked in') }}
+                                                    {{ __('Belum check-in') }}
                                                 </span>
                                             @endif
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <form action="{{ route('attendees.destroy', [$event, $attendee]) }}"
                                                 method="POST" class="inline"
-                                                onsubmit="return confirm('{{ __('Are you sure you want to remove this attendee?') }}');">
+                                                onsubmit="return confirm('{{ __('Apakah Anda yakin ingin menghapus peserta ini?') }}');">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit"
                                                     class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
-                                                    {{ __('Remove') }}
+                                                    {{ __('Hapus') }}
                                                 </button>
                                             </form>
                                         </td>

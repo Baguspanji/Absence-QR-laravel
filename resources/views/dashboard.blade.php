@@ -3,10 +3,10 @@
         <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-neutral-800">
             <div class="p-6">
                 <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-xl font-semibold text-gray-900 dark:text-white">{{ __('Your Events') }}</h2>
+                    <h2 class="text-xl font-semibold text-gray-900 dark:text-white">{{ __('Acara Anda') }}</h2>
                     <a href="{{ route('events.create') }}"
                         class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md">
-                        {{ __('Create New Event') }}
+                        {{ __('Buat Acara Baru') }}
                     </a>
                 </div>
 
@@ -24,14 +24,14 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                             </svg>
-                            <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">{{ __('No events') }}
+                            <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">{{ __('Tidak ada acara') }}
                             </h3>
                             <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                                {{ __('Get started by creating a new event.') }}</p>
+                                {{ __('Mulai dengan membuat acara baru.') }}</p>
                             <div class="mt-6">
                                 <a href="{{ route('events.create') }}"
                                     class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700">
-                                    {{ __('Create Event') }}
+                                    {{ __('Buat Acara') }}
                                 </a>
                             </div>
                         </div>
@@ -47,12 +47,12 @@
                                                     {{ $event->name }}</h3>
                                                 <div class="mt-1 text-sm text-gray-500 dark:text-gray-400">
                                                     <div>
-                                                        <span class="font-medium">{{ __('Date:') }}</span>
+                                                        <span class="font-medium">{{ __('Tanggal:') }}</span>
                                                         {{ $event->start_date->format('M d, Y') }}
                                                     </div>
                                                     @if ($event->location)
                                                         <div>
-                                                            <span class="font-medium">{{ __('Location:') }}</span>
+                                                            <span class="font-medium">{{ __('Lokasi:') }}</span>
                                                             {{ $event->location }}
                                                         </div>
                                                     @endif
@@ -61,11 +61,11 @@
                                             <div class="flex space-x-2">
                                                 <a href="{{ route('events.show', $event) }}"
                                                     class="px-3 py-1 text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
-                                                    {{ __('Details') }}
+                                                    {{ __('Detail') }}
                                                 </a>
                                                 <a href="{{ route('events.qrcode', $event) }}"
                                                     class="px-3 py-1 text-sm text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300">
-                                                    {{ __('QR Code') }}
+                                                    {{ __('Kode QR') }}
                                                 </a>
                                             </div>
                                         </div>
@@ -74,7 +74,7 @@
                                             <div
                                                 class="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 px-2 py-1 rounded text-xs">
                                                 {{ $event->getCheckedInCount() }}/{{ $event->getTotalAttendeesCount() }}
-                                                {{ __('Attendees') }}
+                                                {{ __('Peserta') }}
                                             </div>
                                         </div>
                                     </div>
@@ -84,7 +84,7 @@
                             <div class="mt-4 text-center">
                                 <a href="{{ route('events.index') }}"
                                     class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-sm">
-                                    {{ __('View All Events') }} →
+                                    {{ __('Lihat Semua Acara') }} →
                                 </a>
                             </div>
                         </div>
@@ -95,7 +95,7 @@
 
         <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-neutral-800">
             <div class="p-6">
-                <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">{{ __('Quick Guide') }}</h2>
+                <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">{{ __('Panduan Cepat') }}</h2>
                 <div class="space-y-4 text-gray-700 dark:text-gray-300">
                     <div class="flex items-start space-x-3">
                         <div
@@ -103,9 +103,9 @@
                             <span class="font-bold text-blue-600 dark:text-blue-300">1</span>
                         </div>
                         <div>
-                            <h3 class="font-medium">{{ __('Create an Event') }}</h3>
+                            <h3 class="font-medium">{{ __('Buat Acara') }}</h3>
                             <p class="text-sm text-gray-500 dark:text-gray-400">
-                                {{ __('Start by creating a new event with details like name, date, and location.') }}
+                                {{ __('Mulai dengan membuat acara baru dengan detail seperti nama, tanggal, dan lokasi.') }}
                             </p>
                         </div>
                     </div>
@@ -116,9 +116,9 @@
                             <span class="font-bold text-blue-600 dark:text-blue-300">2</span>
                         </div>
                         <div>
-                            <h3 class="font-medium">{{ __('Add Attendees') }}</h3>
+                            <h3 class="font-medium">{{ __('Tambah Peserta') }}</h3>
                             <p class="text-sm text-gray-500 dark:text-gray-400">
-                                {{ __('Add attendees manually or import them from a CSV/Excel file.') }}</p>
+                                {{ __('Tambahkan peserta secara manual atau impor dari file CSV/Excel.') }}</p>
                         </div>
                     </div>
 
@@ -128,9 +128,9 @@
                             <span class="font-bold text-blue-600 dark:text-blue-300">3</span>
                         </div>
                         <div>
-                            <h3 class="font-medium">{{ __('Display QR Code') }}</h3>
+                            <h3 class="font-medium">{{ __('Tampilkan Kode QR') }}</h3>
                             <p class="text-sm text-gray-500 dark:text-gray-400">
-                                {{ __('Generate and display the QR code at your event for attendees to scan.') }}</p>
+                                {{ __('Buat dan tampilkan kode QR di acara Anda untuk dipindai oleh peserta.') }}</p>
                         </div>
                     </div>
 
@@ -140,9 +140,9 @@
                             <span class="font-bold text-blue-600 dark:text-blue-300">4</span>
                         </div>
                         <div>
-                            <h3 class="font-medium">{{ __('Track Attendance') }}</h3>
+                            <h3 class="font-medium">{{ __('Pantau Kehadiran') }}</h3>
                             <p class="text-sm text-gray-500 dark:text-gray-400">
-                                {{ __('Monitor who has checked in in real-time from the event details page.') }}</p>
+                                {{ __('Pantau siapa yang sudah check-in secara real-time dari halaman detail acara.') }}</p>
                         </div>
                     </div>
                 </div>

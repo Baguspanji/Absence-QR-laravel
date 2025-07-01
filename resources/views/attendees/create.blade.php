@@ -1,9 +1,9 @@
-<x-layouts.app :title="__('Add Attendee')">
+<x-layouts.app :title="__('Tambah Peserta')">
     <div class="mx-auto max-w-2xl px-4 py-8 sm:px-6 lg:px-8">
         <div class="bg-white shadow-sm rounded-lg p-6 dark:bg-neutral-800">
             <div class="mb-6">
-                <h2 class="text-xl font-bold text-gray-900 dark:text-white">{{ __('Add Attendee') }}</h2>
-                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">{{ __('Add a new attendee to') }}
+                <h2 class="text-xl font-bold text-gray-900 dark:text-white">{{ __('Tambah Peserta') }}</h2>
+                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">{{ __('Tambahkan peserta baru ke') }}
                     "{{ $event->name }}"</p>
             </div>
 
@@ -14,7 +14,7 @@
                     <!-- Attendee Name -->
                     <div>
                         <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                            {{ __('Full Name') }} <span class="text-red-500">*</span>
+                            {{ __('Nama Lengkap') }} <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="name" id="name" value="{{ old('name') }}" required
                             class="mt-1 block w-full border-gray-300 dark:border-neutral-700 dark:bg-neutral-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
@@ -26,7 +26,7 @@
                     <!-- Email -->
                     <div>
                         <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                            {{ __('Email Address') }}
+                            {{ __('Alamat Email') }}
                         </label>
                         <input type="email" name="email" id="email" value="{{ old('email') }}"
                             class="mt-1 block w-full border-gray-300 dark:border-neutral-700 dark:bg-neutral-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
@@ -38,7 +38,7 @@
                     <!-- Phone -->
                     <div>
                         <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                            {{ __('Phone Number') }}
+                            {{ __('Nomor Telepon') }}
                         </label>
                         <input type="text" name="phone" id="phone" value="{{ old('phone') }}"
                             class="mt-1 block w-full border-gray-300 dark:border-neutral-700 dark:bg-neutral-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
@@ -51,10 +51,10 @@
                 <div class="mt-6 flex items-center justify-end">
                     <a href="{{ route('events.show', $event) }}"
                         class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 mr-4">
-                        {{ __('Cancel') }}
+                        {{ __('Batal') }}
                     </a>
                     <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md">
-                        {{ __('Add Attendee') }}
+                        {{ __('Tambah Peserta') }}
                     </button>
                 </div>
             </form>

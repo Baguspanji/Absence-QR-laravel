@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ $event->name }} - {{ __('Attendance Confirmation') }}</title>
+    <title>{{ $event->name }} - {{ __('Konfirmasi Kehadiran') }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -41,11 +41,11 @@
                             </div>
 
                             <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                                {{ __('Attendance Recorded!') }}</h2>
+                                {{ __('Kehadiran Tercatat!') }}</h2>
 
                             <p class="text-gray-600 dark:text-gray-400 mb-6">
-                                {{ __('Thank you') }}, <span class="font-medium">{{ $attendee->name }}</span>.
-                                {{ __('Your attendance has been successfully recorded at') }}
+                                {{ __('Terima kasih') }}, <span class="font-medium">{{ $attendee->name }}</span>.
+                                {{ __('Kehadiran Anda telah berhasil dicatat pada pukul') }}
                                 <span class="font-medium">{{ $attendee->attendance_time->format('H:i') }}</span>.
                             </p>
 
@@ -61,7 +61,7 @@
 
                             <a href="{{ route('attendance.show', $event->qr_code_token) }}"
                                 class="inline-block px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md">
-                                {{ __('Back to Attendance Page') }}
+                                {{ __('Kembali ke Halaman Absensi') }}
                             </a>
                         </div>
                     </div>
@@ -72,7 +72,7 @@
         <footer class="bg-white dark:bg-neutral-800 shadow-inner py-4">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <p class="text-center text-sm text-gray-500 dark:text-gray-400">
-                    &copy; {{ date('Y') }} {{ config('app.name') }}. {{ __('All rights reserved.') }}
+                    &copy; {{ date('Y') }} {{ config('app.name') }}. {{ __('Hak Cipta Dilindungi.') }}
                 </p>
             </div>
         </footer>

@@ -15,18 +15,18 @@
                         {!! QrCode::size(250)->generate($event->getAttendanceUrl()) !!}
                     </div>
                     <p class="mt-4 text-sm text-gray-600 dark:text-gray-400">
-                        {{ __('Scan this QR code to mark attendance') }}</p>
+                        {{ __('Pindai kode QR ini untuk menandai kehadiran') }}</p>
                 </div>
             </div>
 
             <div class="flex flex-col items-center mt-6">
-                <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">{{ __('Attendance URL') }}</p>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">{{ __('URL Absensi') }}</p>
                 <div class="flex items-center space-x-2 w-full">
                     <input type="text" readonly value="{{ $event->getAttendanceUrl() }}"
                         class="w-full text-sm bg-gray-100 dark:bg-neutral-700 border border-gray-300 dark:border-neutral-600 rounded-md px-3 py-2">
                     <button onclick="copyToClipboard()"
                         class="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm">
-                        {{ __('Copy') }}
+                        {{ __('Salin') }}
                     </button>
                 </div>
             </div>
@@ -34,13 +34,13 @@
             <div class="mt-8 flex justify-between items-center">
                 <a href="{{ route('events.show', $event) }}"
                     class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
-                    &larr; {{ __('Back to Event') }}
+                    &larr; {{ __('Kembali ke Acara') }}
                 </a>
 
                 <div class="flex space-x-2">
                     <a href="#" onclick="printQR()"
                         class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
-                        {{ __('Print') }}
+                        {{ __('Cetak') }}
                     </a>
                 </div>
             </div>
@@ -51,7 +51,7 @@
         function copyToClipboard() {
             const url = "{{ $event->getAttendanceUrl() }}";
             navigator.clipboard.writeText(url).then(function() {
-                alert("{{ __('URL copied to clipboard!') }}");
+                alert("{{ __('URL disalin ke clipboard!') }}");
             });
         }
 
@@ -80,7 +80,7 @@
                         <div class="qr-container">
                             {!! QrCode::size(300)->generate($event->getAttendanceUrl()) !!}
                         </div>
-                        <p>Scan to mark attendance</p>
+                        <p>Pindai untuk menandai kehadiran</p>
                         <p style="margin-top: 20px; font-size: 12px;">{{ $event->getAttendanceUrl() }}</p>
                     </div>
                 </body>
