@@ -30,6 +30,8 @@ Route::middleware(['auth'])->group(function () {
         ->name('attendees.store');
     Route::post('events/{event}/attendees/import', [\App\Http\Controllers\AttendeeController::class, 'import'])
         ->name('attendees.import');
+    Route::get('attendees/template/download', [\App\Http\Controllers\AttendeeController::class, 'downloadTemplate'])
+        ->name('attendees.template.download');
     Route::delete('events/{event}/attendees/{attendee}', [\App\Http\Controllers\AttendeeController::class, 'destroy'])
         ->name('attendees.destroy');
 });

@@ -57,7 +57,7 @@
                                 <label for="search"
                                     class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('Cari nama Anda') }}:</label>
                                 <input type="text" id="search" placeholder="Ketik nama Anda di sini..."
-                                    class="w-full border-gray-300 dark:border-neutral-700 dark:bg-neutral-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
+                                    class="px-2 py-1 w-full border-gray-300 dark:border-neutral-700 dark:bg-neutral-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
                                     onkeyup="searchAttendees()">
                             </div>
 
@@ -71,9 +71,9 @@
                                             data-name="{{ strtolower($attendee->name) }}"
                                             onclick="confirmAttendance({{ $attendee->id }}, '{{ $attendee->name }}')">
                                             <p class="font-medium">{{ $attendee->name }}</p>
-                                            @if ($attendee->email)
+                                            @if ($attendee->school)
                                                 <p class="text-sm text-gray-500 dark:text-gray-400">
-                                                    {{ $attendee->email }}</p>
+                                                    {{ $attendee->school }}</p>
                                             @endif
                                         </div>
                                     @endforeach

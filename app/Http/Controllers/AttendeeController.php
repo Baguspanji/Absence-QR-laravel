@@ -6,6 +6,7 @@ use App\Models\Attendee;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class AttendeeController extends Controller
 {
@@ -28,7 +29,7 @@ class AttendeeController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'nullable|email|max:255',
+            'school' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:20',
         ]);
 
@@ -50,42 +51,126 @@ class AttendeeController extends Controller
 
         $file = $request->file('file');
         $filePath = $file->getRealPath();
+        $extension = $file->getClientOriginalExtension();
 
-        // Simple CSV import implementation
-        if (($handle = fopen($filePath, 'r')) !== false) {
-            // Skip the header row
-            $header = fgetcsv($handle);
+        $importCount = 0;
+        $errorRows = [];
 
-            $importCount = 0;
+        try {
+            // Handle CSV files
+            if (in_array($extension, ['csv', 'txt'])) {
+                if (($handle = fopen($filePath, 'r')) !== false) {
+                    // Skip the header row
+                    $header = fgetcsv($handle);
 
-            // Process each row
-            while (($data = fgetcsv($handle)) !== false) {
-                // Map CSV columns to attendee fields
-                // Assuming CSV has columns: name, email, phone (in that order)
-                // Adjust mapping according to your actual CSV structure
-                $name = $data[0] ?? null;
-                $email = $data[1] ?? null;
-                $phone = $data[2] ?? null;
+                    $rowNumber = 1; // Start from row 1 (after header)
 
-                if ($name) {
-                    $event->attendees()->create([
-                        'name' => $name,
-                        'email' => $email,
-                        'phone' => $phone,
-                    ]);
+                    // Process each row
+                    while (($data = fgetcsv($handle)) !== false) {
+                        $rowNumber++;
 
-                    $importCount++;
+                        // Map CSV columns to attendee fields
+                        $name = $data[0] ?? null;
+                        $school = $data[1] ?? null;
+                        $phone = $data[2] ?? null;
+
+                        if (!empty($name)) {
+                            try {
+                                $event->attendees()->create([
+                                    'name' => $name,
+                                    'school' => $school,
+                                    'phone' => $phone,
+                                ]);
+
+                                $importCount++;
+                            } catch (\Exception $e) {
+                                $errorRows[] = "Row {$rowNumber}: {$e->getMessage()}";
+                            }
+                        }
+                    }
+
+                    fclose($handle);
+                }
+            }
+            // Handle Excel files (XLS, XLSX)
+            else if (in_array($extension, ['xls', 'xlsx'])) {
+                // Read the Excel file
+                $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($filePath);
+                $worksheet = $spreadsheet->getActiveSheet();
+                $rows = $worksheet->toArray();
+
+                // Skip header row
+                $header = array_shift($rows);
+
+                $rowNumber = 1; // Start from row 1 (after header)
+
+                foreach ($rows as $row) {
+                    $rowNumber++;
+
+                    $name = $row[0] ?? null;
+                    $school = $row[1] ?? null;
+                    $phone = $row[2] ?? null;
+
+                    if (!empty($name)) {
+                        try {
+                            $event->attendees()->create([
+                                'name' => $name,
+                                'school' => $school,
+                                'phone' => $phone,
+                            ]);
+
+                            $importCount++;
+                        } catch (\Exception $e) {
+                            $errorRows[] = "Row {$rowNumber}: {$e->getMessage()}";
+                        }
+                    }
                 }
             }
 
-            fclose($handle);
+            if ($importCount > 0) {
+                $message = $importCount . ' ' . __('attendees imported successfully.');
 
+                if (!empty($errorRows)) {
+                    $message .= ' ' . count($errorRows) . ' rows had errors.';
+                }
+
+                return redirect()->route('events.show', $event)->with('success', $message);
+            } else if (!empty($errorRows)) {
+                return redirect()->route('events.show', $event)
+                    ->with('error', __('No attendees were imported. Please check your file format.'));
+            }
+
+        } catch (\Exception $e) {
             return redirect()->route('events.show', $event)
-                ->with('success', $importCount . ' ' . __('attendees imported successfully.'));
+                ->with('error', __('Error processing file: ') . $e->getMessage());
         }
 
         return redirect()->route('events.show', $event)
             ->with('error', __('Failed to process the import file.'));
+    }
+
+    /**
+     * Download a template for attendee import.
+     */
+    public function downloadTemplate()
+    {
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="attendees_import_template.csv"',
+        ];
+
+        $callback = function() {
+            $file = fopen('php://output', 'w');
+            // Add header row
+            fputcsv($file, ['name', 'school', 'phone']);
+
+            // Add example row
+            fputcsv($file, ['John Doe', 'University of Example', '123456789']);
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 
     /**

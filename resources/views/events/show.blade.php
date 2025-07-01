@@ -106,11 +106,20 @@
                     </div>
 
                     <div>
+                        <div class="flex items-center mb-2 justify-end">
+                            <a href="{{ route('attendees.template.download') }}"
+                               class="text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                                {{ __('Download Template') }}
+                            </a>
+                        </div>
                         <form action="{{ route('attendees.import', $event) }}" method="POST"
                             enctype="multipart/form-data" class="flex items-center space-x-2">
                             @csrf
-                            <input type="file" name="file" id="file"
-                                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-md cursor-pointer bg-white dark:text-gray-400 dark:bg-neutral-900 dark:border-gray-700 focus:outline-none">
+                            <input type="file" name="file" id="file" accept=".csv,.xlsx,.xls"
+                                class="px-2 py-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-md cursor-pointer bg-white dark:text-gray-400 dark:bg-neutral-900 dark:border-gray-700 focus:outline-none">
                             <button type="submit"
                                 class="px-3 py-1 bg-gray-600 hover:bg-gray-700 text-white rounded-md text-sm">
                                 {{ __('Impor') }}
@@ -170,8 +179,8 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="text-sm text-gray-500 dark:text-gray-400">
-                                                @if ($attendee->email)
-                                                    <div>{{ $attendee->email }}</div>
+                                                @if ($attendee->school)
+                                                    <div>{{ $attendee->school }}</div>
                                                 @endif
                                                 @if ($attendee->phone)
                                                     <div>{{ $attendee->phone }}</div>

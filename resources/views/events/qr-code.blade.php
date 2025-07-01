@@ -1,3 +1,7 @@
+@php
+    use SimpleSoftwareIO\QrCode\Facades\QrCode;
+@endphp
+
 <x-layouts.app :title="$event->name . ' - ' . __('QR Code')">
     <div class="mx-auto max-w-2xl px-4 py-8 sm:px-6 lg:px-8">
         <div class="bg-white shadow-sm rounded-lg p-6 dark:bg-neutral-800">
@@ -23,7 +27,7 @@
                 <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">{{ __('URL Absensi') }}</p>
                 <div class="flex items-center space-x-2 w-full">
                     <input type="text" readonly value="{{ $event->getAttendanceUrl() }}"
-                        class="w-full text-sm bg-gray-100 dark:bg-neutral-700 border border-gray-300 dark:border-neutral-600 rounded-md px-3 py-2">
+                        class="w-full text-sm bg-gray-100 dark:bg-neutral-700 border border-gray-300 dark:border-neutral-600 rounded-md px-2 py-1">
                     <button onclick="copyToClipboard()"
                         class="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm">
                         {{ __('Salin') }}
@@ -58,34 +62,43 @@
         function printQR() {
             const content = document.querySelector('.bg-white');
             const printWindow = window.open('', '_blank');
+
+            const event = @json($event);
+            const startDate = "{{ $event->start_date->format('d M Y, H:i') }}";
+
+            // Get QR code from the page
+            const qrCode = document.querySelector('.p-2.bg-white.rounded-lg').innerHTML;
+            const qrCodeUrl = "{{ $event->getAttendanceUrl() }}";
+
             printWindow.document.write(`
-                <html>
-                <head>
-                    <title>{{ $event->name }} - QR Code</title>
-                    <style>
-                        body { font-family: Arial, sans-serif; text-align: center; }
-                        .container { margin: 20px auto; max-width: 400px; }
-                        h1 { margin-bottom: 5px; }
-                        p { margin: 5px 0; color: #666; }
-                        .qr-container { margin: 30px auto; }
-                    </style>
-                </head>
-                <body>
-                    <div class="container">
-                        <h1>{{ $event->name }}</h1>
-                        <p>{{ $event->start_date->format('d M Y, H:i') }}</p>
-                        @if ($event->location)
-                            <p>{{ $event->location }}</p>
-                        @endif
-                        <div class="qr-container">
-                            {!! QrCode::size(300)->generate($event->getAttendanceUrl()) !!}
-                        </div>
-                        <p>Pindai untuk menandai kehadiran</p>
-                        <p style="margin-top: 20px; font-size: 12px;">{{ $event->getAttendanceUrl() }}</p>
-                    </div>
-                </body>
-                </html>
-            `);
+                    <html>
+                        <head>
+                            <title>${event.name} - QR Code</title>
+                            <style>
+                                body { font-family: Arial, sans-serif; text-align: center; }
+                                .container { margin: 20px auto; max-width: 400px; }
+                                h1 { margin-bottom: 5px; }
+                                p { margin: 5px 0; color: #666; }
+                                .qr-container { margin: 30px auto; }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="container">
+                                <h1>${event.name}</h1>
+                                <p>${startDate}</p>
+                                @if ($event->location)
+                                    <p>${event.location}</p>
+                                @endif
+                                <div class="qr-container">
+                                    ${qrCode}
+                                </div>
+                                <p>Pindai untuk menandai kehadiran</p>
+                                <p style="margin-top: 20px; font-size: 12px;">${qrCodeUrl}</p>
+                            </div>
+                        </body>
+                    </html>
+                `);
+
             printWindow.document.close();
             printWindow.focus();
             setTimeout(function() {
