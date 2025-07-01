@@ -37,7 +37,6 @@ class AttendeeController extends Controller
         return redirect()->route('events.show', $event)
             ->with('success', 'Attendee added successfully.');
     }
-
     /**
      * Import multiple attendees from CSV/Excel file.
      */
@@ -49,11 +48,44 @@ class AttendeeController extends Controller
             'file' => 'required|file|mimes:csv,txt,xls,xlsx',
         ]);
 
-        // Process file import logic here
-        // This would typically involve a job or service to handle the file upload
+        $file = $request->file('file');
+        $filePath = $file->getRealPath();
+
+        // Simple CSV import implementation
+        if (($handle = fopen($filePath, 'r')) !== false) {
+            // Skip the header row
+            $header = fgetcsv($handle);
+
+            $importCount = 0;
+
+            // Process each row
+            while (($data = fgetcsv($handle)) !== false) {
+                // Map CSV columns to attendee fields
+                // Assuming CSV has columns: name, email, phone (in that order)
+                // Adjust mapping according to your actual CSV structure
+                $name = $data[0] ?? null;
+                $email = $data[1] ?? null;
+                $phone = $data[2] ?? null;
+
+                if ($name) {
+                    $event->attendees()->create([
+                        'name' => $name,
+                        'email' => $email,
+                        'phone' => $phone,
+                    ]);
+
+                    $importCount++;
+                }
+            }
+
+            fclose($handle);
+
+            return redirect()->route('events.show', $event)
+                ->with('success', $importCount . ' ' . __('attendees imported successfully.'));
+        }
 
         return redirect()->route('events.show', $event)
-            ->with('success', 'Attendees imported successfully.');
+            ->with('error', __('Failed to process the import file.'));
     }
 
     /**
