@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AttendeesExport;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -117,5 +118,17 @@ class EventController extends Controller
         $this->authorize('view', $event);
 
         return view('events.qr-code', compact('event'));
+    }
+
+    /**
+     * Export attendees to Excel.
+     */    public function exportAttendees(Event $event)
+    {
+        // Check if user owns the event
+        $this->authorize('view', $event);
+
+        $organizerName = Auth::user()->name;
+        $export = new AttendeesExport($event, $organizerName);
+        return $export->download();
     }
 }

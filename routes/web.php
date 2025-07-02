@@ -22,6 +22,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('events', \App\Http\Controllers\EventController::class);
     Route::get('events/{event}/qr-code', [\App\Http\Controllers\EventController::class, 'showQrCode'])
         ->name('events.qrcode');
+    Route::get('events/{event}/export', [\App\Http\Controllers\EventController::class, 'exportAttendees'])
+        ->name('events.export');
 
     // Attendee routes
     Route::get('events/{event}/attendees/create', [\App\Http\Controllers\AttendeeController::class, 'create'])
