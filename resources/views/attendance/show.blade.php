@@ -185,7 +185,7 @@
 
         // Close modal when clicking outside
         document.getElementById('confirmationModal').addEventListener('click', function(e) {
-            if (e.target === this) {
+            if (e.target == this) {
                 closeModal();
             }
         });
@@ -272,7 +272,7 @@
             const userAnswer = document.getElementById('quizAnswer').value.trim().toLowerCase();
             const correctAnswer = document.getElementById('quizCorrectAnswer').value.toLowerCase();
 
-            if (userAnswer === correctAnswer) {
+            if (userAnswer == correctAnswer) {
                 return true;
             } else {
                 document.getElementById('quizError').classList.remove('hidden');
@@ -282,7 +282,7 @@
 
         // Allow submitting quiz with Enter key
         document.getElementById('quizAnswer').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
+            if (e.key == 'Enter') {
                 e.preventDefault();
                 if (validateQuiz()) {
                     document.getElementById('attendanceForm').submit();
@@ -294,7 +294,7 @@
             const userAnswer = document.getElementById('quizAnswer').value.toLowerCase();
             const correctAnswer = document.getElementById('quizCorrectAnswer').value.toLowerCase();
 
-            if (userAnswer !== correctAnswer) {
+            if (userAnswer != correctAnswer) {
                 document.getElementById('quizError').classList.remove('hidden');
                 return false;
             } else {

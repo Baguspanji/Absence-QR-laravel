@@ -54,7 +54,7 @@ class AttendanceController extends Controller
     {
         $event = Event::where('qr_code_token', $token)->firstOrFail();
 
-        if ($attendee->event_id !== $event->id) {
+        if ($attendee->event_id != $event->id) {
             abort(404);
         }
 

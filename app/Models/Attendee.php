@@ -45,6 +45,6 @@ class Attendee extends Model
      */
     public function hasCheckedIn(): bool
     {
-        return $this->attendance_time !== null;
+        return $this->attendance_time != null;
     }
 }

@@ -5,7 +5,7 @@
 ])
 
 @php
-    if ($variant === 'solid') {
+    if ($variant == 'solid') {
         throw new \Exception('The "solid" variant is not supported in Lucide.');
     }
 

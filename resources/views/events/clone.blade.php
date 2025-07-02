@@ -23,7 +23,7 @@
                         <div class="flex items-center">
                             <input type="checkbox" name="clone_attendees" id="clone_attendees" value="1"
                                 class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded dark:border-gray-700 dark:bg-neutral-900"
-                                {{ old('clone_attendees', '1') === '1' ? 'checked' : '' }}>
+                                {{ old('clone_attendees', '1') == '1' ? 'checked' : '' }}>
                             <label for="clone_attendees" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">
                                 Salin peserta juga
                             </label>

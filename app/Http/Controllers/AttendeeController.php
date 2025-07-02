@@ -59,14 +59,14 @@ class AttendeeController extends Controller
         try {
             // Handle CSV files
             if (in_array($extension, ['csv', 'txt'])) {
-                if (($handle = fopen($filePath, 'r')) !== false) {
+                if (($handle = fopen($filePath, 'r')) != false) {
                     // Skip the header row
                     $header = fgetcsv($handle);
 
                     $rowNumber = 1; // Start from row 1 (after header)
 
                     // Process each row
-                    while (($data = fgetcsv($handle)) !== false) {
+                    while (($data = fgetcsv($handle)) != false) {
                         $rowNumber++;
 
                         // Map CSV columns to attendee fields
@@ -179,7 +179,7 @@ class AttendeeController extends Controller
     public function destroy(Event $event, Attendee $attendee)
     {
         // First check if the attendee belongs to this event
-        if ($attendee->event_id !== $event->id) {
+        if ($attendee->event_id != $event->id) {
             abort(404);
         }
 
