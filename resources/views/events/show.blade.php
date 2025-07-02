@@ -28,7 +28,7 @@
                                         viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>                                            {{ __('Berakhir') }}: {{ $event->end_date->format('M d, Y - H:i') }}
+                                    </svg> {{ __('Berakhir') }}: {{ $event->end_date->format('M d, Y - H:i') }}
                                 </span>
                             @endif
                             @if ($event->location)
@@ -52,37 +52,71 @@
                         @endif
                     </div>
 
-                    <div class="flex space-x-2">
+                    <div class="flex space-x-2 py-2">
                         <a href="{{ route('events.qrcode', $event) }}"
-                            class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md text-sm flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
+                            class="p-2 bg-green-600 hover:bg-green-700 text-white rounded-md text-sm flex items-center group relative"
+                            title="{{ __('Kode QR') }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
                             </svg>
-                            {{ __('Kode QR') }}
+                            <span class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                                {{ __('Kode QR') }}
+                            </span>
                         </a>
                         <a href="{{ route('events.export', $event) }}"
-                            class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
+                            class="p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm flex items-center group relative"
+                            title="{{ __('Ekspor Excel') }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
-                            {{ __('Ekspor Excel') }}
+                            <span class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                                {{ __('Ekspor Excel') }}
+                            </span>
+                        </a>
+                        <a href="{{ route('events.clone.form', $event) }}"
+                            class="p-2 bg-purple-600 hover:bg-purple-700 text-white rounded-md text-sm flex items-center group relative"
+                            title="{{ __('Duplikat') }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
+                            </svg>
+                            <span class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                                {{ __('Duplikat') }}
+                            </span>
                         </a>
                         <a href="{{ route('events.edit', $event) }}"
-                            class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-md text-sm">
-                            {{ __('Edit') }}
+                            class="p-2 bg-gray-600 hover:bg-gray-700 text-white rounded-md text-sm flex items-center group relative"
+                            title="{{ __('Edit') }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                            </svg>
+                            <span class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                                {{ __('Edit') }}
+                            </span>
                         </a>
-                        <form action="{{ route('events.destroy', $event) }}" method="POST" class="inline"
+                        <form action="{{ route('events.destroy', $event) }}" method="POST" class="inline group relative"
                             onsubmit="return confirm('{{ __('Apakah Anda yakin ingin menghapus acara ini? Tindakan ini tidak dapat dibatalkan.') }}');">
                             @csrf
                             @method('DELETE')
                             <button type="submit"
-                                class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md text-sm">
-                                {{ __('Hapus') }}
+                                class="p-2 bg-red-600 hover:bg-red-700 text-white rounded-md text-sm flex items-center"
+                                title="{{ __('Hapus') }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
                             </button>
+                            <span class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                                {{ __('Hapus') }}
+                            </span>
                         </form>
                     </div>
                 </div>
@@ -117,9 +151,11 @@
                     <div>
                         <div class="flex items-center mb-2 justify-end">
                             <a href="{{ route('attendees.template.download') }}"
-                               class="text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                class="text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                                 </svg>
                                 {{ __('Download Template') }}
                             </a>
@@ -145,7 +181,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                         </svg>
-                        <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">{{ __('Tidak ada peserta') }}
+                        <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">
+                            {{ __('Tidak ada peserta') }}
                         </h3>
                         <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
                             {{ __('Tambahkan peserta ke acara Anda.') }}</p>
@@ -167,7 +204,7 @@
                                     </th>
                                     <th scope="col"
                                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        {{ __('Kontak') }}
+                                        {{ __('Asal Sekolah') }}
                                     </th>
                                     <th scope="col"
                                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">

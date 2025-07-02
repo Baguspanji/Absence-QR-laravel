@@ -122,7 +122,8 @@ class EventController extends Controller
 
     /**
      * Export attendees to Excel.
-     */    public function exportAttendees(Event $event)
+     */
+    public function exportAttendees(Event $event)
     {
         // Check if user owns the event
         $this->authorize('view', $event);
@@ -130,5 +131,48 @@ class EventController extends Controller
         $organizerName = Auth::user()->name;
         $export = new AttendeesExport($event, $organizerName);
         return $export->download();
+    }
+
+    /**
+     * Show the form for cloning an existing event.
+     */
+    public function showCloneForm(Event $event): View
+    {
+        // Check if user owns the event
+        $this->authorize('view', $event);
+
+        return view('events.clone', compact('event'));
+    }
+
+    /**
+     * Clone the specified event and its attendees.
+     */
+    public function cloneEvent(Request $request, Event $event)
+    {
+        // Check if user owns the event
+        $this->authorize('view', $event);
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'clone_attendees' => 'sometimes|boolean',
+        ]);
+
+        // Create a new event
+        $newEvent = $event->replicate(['qr_code_token']);
+        $newEvent->name = $validated['name'];
+        $newEvent->save();
+
+        // Clone attendees if requested
+        if ($request->has('clone_attendees') && $validated['clone_attendees']) {
+            foreach ($event->attendees as $attendee) {
+                $newAttendee = $attendee->replicate(['attendance_time']);
+                $newAttendee->event_id = $newEvent->id;
+                $newAttendee->attendance_time = null;
+                $newAttendee->save();
+            }
+        }
+
+        return redirect()->route('events.show', $newEvent)
+            ->with('success', 'Event cloned successfully.');
     }
 }

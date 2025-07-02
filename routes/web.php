@@ -24,6 +24,10 @@ Route::middleware(['auth'])->group(function () {
         ->name('events.qrcode');
     Route::get('events/{event}/export', [\App\Http\Controllers\EventController::class, 'exportAttendees'])
         ->name('events.export');
+    Route::get('events/{event}/clone', [\App\Http\Controllers\EventController::class, 'showCloneForm'])
+        ->name('events.clone.form');
+    Route::post('events/{event}/clone', [\App\Http\Controllers\EventController::class, 'cloneEvent'])
+        ->name('events.clone');
 
     // Attendee routes
     Route::get('events/{event}/attendees/create', [\App\Http\Controllers\AttendeeController::class, 'create'])
