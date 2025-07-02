@@ -102,9 +102,27 @@
                     {{ __('Konfirmasi Kehadiran') }}</h3>
                 <p class="text-gray-600 dark:text-gray-400 mb-6" id="modalMessage"></p>
 
-                <form id="attendanceForm" method="POST" action="">
+                <!-- Quiz Section -->
+                <div id="quizSection" class="mb-6">
+                    <h4 class="text-md font-medium text-gray-800 dark:text-gray-200 mb-2">{{ __('Mini Quiz') }}</h4>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                        {{ __('Silakan jawab pertanyaan berikut:') }}</p>
+
+                    <div id="quizQuestion" class="font-medium text-gray-800 dark:text-gray-200 mb-3"></div>
+
+                    <div class="mb-4">
+                        <input type="text" id="quizAnswer"
+                            class="px-3 py-2 w-full border-gray-300 dark:border-neutral-700 dark:bg-neutral-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
+                            placeholder="{{ __('Ketik jawaban Anda di sini') }}">
+                        <p id="quizError" class="mt-1 text-sm text-red-600 dark:text-red-400 hidden">
+                            {{ __('Jawaban salah, silakan coba lagi!') }}</p>
+                    </div>
+                </div>
+
+                <form id="attendanceForm" method="POST" action="" onsubmit="return validateQuiz()">
                     @csrf
                     <input type="hidden" name="attendee_id" id="attendeeId">
+                    <input type="hidden" id="quizCorrectAnswer">
 
                     <div class="flex justify-end space-x-3">
                         <button type="button" onclick="closeModal()"
@@ -143,7 +161,22 @@
                 ". {{ __('Lanjutkan?') }}";
             document.getElementById('attendanceForm').action =
                 "{{ route('attendance.mark-present', $event->qr_code_token) }}";
+            // Generate quiz
+            const quiz = generateRandomQuiz();
+            document.getElementById('quizQuestion').innerText = quiz.question;
+            document.getElementById('quizCorrectAnswer').value = quiz.answer.toString();
+
+            // Reset quiz error and answer field
+            document.getElementById('quizError').classList.add('hidden');
+            document.getElementById('quizAnswer').value = '';
+
+            // Show modal
             document.getElementById('confirmationModal').classList.replace('hidden', 'flex');
+
+            // Focus on quiz answer field
+            setTimeout(() => {
+                document.getElementById('quizAnswer').focus();
+            }, 300);
         }
 
         function closeModal() {
@@ -156,6 +189,119 @@
                 closeModal();
             }
         });
+
+        // Generate random math question
+        function generateMathQuestion() {
+            const operations = ['+', '-', '*'];
+            const operation = operations[Math.floor(Math.random() * operations.length)];
+            let a, b, question, answer;
+
+            switch (operation) {
+                case '+':
+                    a = Math.floor(Math.random() * 20) + 1;
+                    b = Math.floor(Math.random() * 20) + 1;
+                    question = `${a} + ${b} = ?`;
+                    answer = a + b;
+                    break;
+                case '-':
+                    a = Math.floor(Math.random() * 20) + 10;
+                    b = Math.floor(Math.random() * 10) + 1;
+                    question = `${a} - ${b} = ?`;
+                    answer = a - b;
+                    break;
+                case '*':
+                    a = Math.floor(Math.random() * 10) + 1;
+                    b = Math.floor(Math.random() * 10) + 1;
+                    question = `${a} × ${b} = ?`;
+                    answer = a * b;
+                    break;
+            }
+
+            return {
+                question,
+                answer
+            };
+        }
+
+        // Generate puzzle question
+        function generatePuzzleQuestion() {
+            const puzzles = [{
+                    question: "Berapakah jumlah hari dalam seminggu?",
+                    answer: "7"
+                },
+                {
+                    question: "Berapakah jumlah bulan dalam setahun?",
+                    answer: "12"
+                },
+                {
+                    question: "2 + 2 × 2 = ?",
+                    answer: "6"
+                },
+                {
+                    question: "Huruf apa yang muncul setelah D?",
+                    answer: "E"
+                },
+                {
+                    question: "Huruf apa yang muncul sebelum Q?",
+                    answer: "P"
+                },
+                {
+                    question: "Berapakah jumlah sisi dari segitiga?",
+                    answer: "3"
+                },
+                {
+                    question: "Berapakah jumlah sisi dari persegi?",
+                    answer: "4"
+                }
+            ];
+
+            return puzzles[Math.floor(Math.random() * puzzles.length)];
+        }
+
+        // Generate random quiz
+        function generateRandomQuiz() {
+            // 50% chance for math question, 50% chance for puzzle
+            if (Math.random() < 0.5) {
+                return generateMathQuestion();
+            } else {
+                return generatePuzzleQuestion();
+            }
+        }
+
+        function validateQuiz() {
+            const userAnswer = document.getElementById('quizAnswer').value.trim().toLowerCase();
+            const correctAnswer = document.getElementById('quizCorrectAnswer').value.toLowerCase();
+
+            if (userAnswer === correctAnswer) {
+                return true;
+            } else {
+                document.getElementById('quizError').classList.remove('hidden');
+                return false;
+            }
+        }
+
+        // Allow submitting quiz with Enter key
+        document.getElementById('quizAnswer').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                if (validateQuiz()) {
+                    document.getElementById('attendanceForm').submit();
+                }
+            }
+        });
+
+        function validateQuiz() {
+            const userAnswer = document.getElementById('quizAnswer').value.toLowerCase();
+            const correctAnswer = document.getElementById('quizCorrectAnswer').value.toLowerCase();
+
+            if (userAnswer !== correctAnswer) {
+                document.getElementById('quizError').classList.remove('hidden');
+                return false;
+            } else {
+                document.getElementById('quizError').classList.add('hidden');
+                return true;
+            }
+        }
     </script>
 </body>
 
