@@ -43,11 +43,11 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // Public attendance routes (no authentication required)
-Route::get('attend/{token}/confirmation/{attendee}', [\App\Http\Controllers\AttendanceController::class, 'confirmation'])
-    ->name('attendance.confirmation');
 Route::get('attend/{token}', [\App\Http\Controllers\AttendanceController::class, 'show'])
     ->name('attendance.show');
 Route::post('attend/{token}', [\App\Http\Controllers\AttendanceController::class, 'markPresent'])
     ->name('attendance.mark-present');
+Route::get('attend/{token}/confirmation/{attendee}', [\App\Http\Controllers\AttendanceController::class, 'confirmation'])
+    ->name('attendance.confirmation');
 
 require __DIR__ . '/auth.php';
