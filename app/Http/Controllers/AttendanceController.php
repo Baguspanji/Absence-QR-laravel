@@ -36,7 +36,7 @@ class AttendanceController extends Controller
 
         if ($attendee->hasCheckedIn()) {
             return redirect()->route('attendance.show', $token)
-                ->with('error', 'Attendee has already checked in.');
+                ->with('error', 'Absensi sudah dilakukan sebelumnya.');
         }
 
         $attendee->update(['attendance_time' => now()]);
