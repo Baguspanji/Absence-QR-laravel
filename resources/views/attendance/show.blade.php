@@ -59,6 +59,10 @@
                                 <input type="text" id="search" placeholder="Ketik nama Anda di sini..."
                                     class="px-2 py-1 w-full border-gray-300 dark:border-neutral-700 dark:bg-neutral-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
                                     onkeyup="searchAttendees()">
+                                {{-- <div class="mt-2 flex items-center">
+                                    <input type="checkbox" id="caseSensitive" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-neutral-700 dark:bg-neutral-900" onchange="searchAttendees()">
+                                    <label for="caseSensitive" class="ml-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Peka huruf besar/kecil') }}</label>
+                                </div> --}}
                             </div>
 
                             <div class="relative max-h-[400px] overflow-y-auto mt-4" id="attendees-list">
@@ -69,6 +73,7 @@
                                     @foreach ($pendingAttendees as $attendee)
                                         <div class="attendee-item border border-gray-200 dark:border-gray-700 rounded-lg p-3 hover:bg-gray-50 dark:hover:bg-neutral-700 cursor-pointer"
                                             data-name="{{ strtolower($attendee->name) }}"
+                                            data-original-name="{{ $attendee->name }}"
                                             onclick="confirmAttendance({{ $attendee->id }}, '{{ $attendee->name }}')">
                                             <p class="font-medium">{{ $attendee->name }}</p>
                                             @if ($attendee->school)
@@ -142,10 +147,13 @@
     <script>
         function searchAttendees() {
             const input = document.getElementById('search');
+            // const isCaseSensitive = document.getElementById('caseSensitive').checked;
+            // const filter = isCaseSensitive ? input.value : input.value.toLowerCase();
             const filter = input.value.toLowerCase();
             const attendeeItems = document.querySelectorAll('.attendee-item');
 
             attendeeItems.forEach(item => {
+                // const name = isCaseSensitive ? item.getAttribute('data-original-name') : item.getAttribute('data-name');
                 const name = item.getAttribute('data-name');
                 if (name.includes(filter)) {
                     item.style.display = '';
