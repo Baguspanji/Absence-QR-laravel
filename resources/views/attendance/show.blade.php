@@ -71,10 +71,14 @@
 
                                 <div class="space-y-2">
                                     @foreach ($pendingAttendees as $attendee)
+                                        @php
+                                            // Ensure the attendee name is properly escaped for HTML
+                                            $attendeeName = htmlspecialchars($attendee->name, ENT_QUOTES, 'UTF-8');
+                                        @endphp
                                         <div class="attendee-item border border-gray-200 dark:border-gray-700 rounded-lg p-3 hover:bg-gray-50 dark:hover:bg-neutral-700 cursor-pointer"
                                             data-name="{{ strtolower($attendee->name) }}"
                                             data-original-name="{{ $attendee->name }}"
-                                            onclick="confirmAttendance({{ $attendee->id }}, '{{ $attendee->name }}')">
+                                            onclick="confirmAttendance({{ $attendee->id }}, '{{ $attendeeName }}')">
                                             <p class="font-medium">{{ $attendee->name }}</p>
                                             @if ($attendee->school)
                                                 <p class="text-sm text-gray-500 dark:text-gray-400">
