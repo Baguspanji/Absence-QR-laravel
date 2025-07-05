@@ -20,6 +20,8 @@
                 </flux:navlist.item>
                 <flux:navlist.item icon="calendar" :href="route('events.index')"
                     :current="request()->routeIs('events.*')">{{ __('Acara') }}</flux:navlist.item>
+                <flux:navlist.item icon="chat-bubble-left-right" :href="route('feedback.index')"
+                    :current="request()->routeIs('feedback.*')">{{ __('Feedback') }}</flux:navlist.item>
             </flux:navlist.group>
         </flux:navlist>
 

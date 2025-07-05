@@ -148,5 +148,93 @@
                 </div>
             </div>
         </div>
+
+        <!-- Feedback Section -->
+        <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-neutral-800">
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-xl font-semibold text-gray-900 dark:text-white">{{ __('Feedback Terbaru') }}</h2>
+                    <a href="{{ route('feedback.create') }}"
+                        class="inline-flex items-center px-3 py-2 bg-purple-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-purple-700">
+                        {{ __('Buat Feedback') }}
+                    </a>
+                </div>
+
+                <div class="space-y-3">
+                    @if ($feedbacks->isEmpty())
+                        <div
+                            class="text-center py-8 border rounded-lg border-dashed border-gray-300 dark:border-gray-700">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-600" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                            </svg>
+                            <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">{{ __('Tidak ada feedback') }}</h3>
+                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                                {{ __('Mulai dengan membuat feedback baru.') }}</p>
+                            <div class="mt-6">
+                                <a href="{{ route('feedback.create') }}"
+                                    class="inline-flex items-center px-4 py-2 bg-purple-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-purple-700">
+                                    {{ __('Buat Feedback') }}
+                                </a>
+                            </div>
+                        </div>
+                    @else
+                        <div class="space-y-4">
+                            @foreach ($feedbacks as $feedback)
+                                <div
+                                    class="border rounded-lg overflow-hidden bg-white dark:bg-neutral-800 hover:shadow-md transition-shadow dark:border-gray-700">
+                                    <div class="p-4">
+                                        <div class="flex justify-between items-start">
+                                            <div>
+                                                <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                                    {{ $feedback->title }}</h3>
+                                                <div class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                                                    <div>
+                                                        <span class="font-medium">{{ __('Dibuat:') }}</span>
+                                                        {{ $feedback->created_at->format('M d, Y') }}
+                                                    </div>
+                                                    <div>
+                                                        <span class="font-medium">{{ __('Status:') }}</span>
+                                                        <span class="px-2 py-1 text-xs rounded-full {{ $feedback->is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                                            {{ $feedback->is_active ? 'Aktif' : 'Non-aktif' }}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex space-x-2">
+                                                <a href="{{ route('feedback.show', $feedback) }}"
+                                                    class="px-3 py-1 text-sm text-purple-600 hover:text-purple-800 dark:text-purple-400 dark:hover:text-purple-300">
+                                                    {{ __('Detail') }}
+                                                </a>
+                                                <a href="{{ route('feedback.qrcode', $feedback) }}"
+                                                    class="px-3 py-1 text-sm text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300">
+                                                    {{ __('QR Code') }}
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <div class="mt-3 flex items-center text-sm">
+                                            <div
+                                                class="bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300 px-2 py-1 rounded text-xs">
+                                                {{ $feedback->getTotalResponsesCount() }} {{ __('Respon') }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+
+                            <div class="mt-4 text-center">
+                                <a href="{{ route('feedback.index') }}"
+                                    class="text-purple-600 hover:text-purple-800 dark:text-purple-400 dark:hover:text-purple-300 text-sm">
+                                    {{ __('Lihat Semua Feedback') }} →
+                                </a>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
     </div>
 </x-layouts.app>

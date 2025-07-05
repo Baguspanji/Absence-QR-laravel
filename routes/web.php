@@ -7,7 +7,7 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
-Route::view('dashboard', 'dashboard')
+Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
@@ -29,6 +29,13 @@ Route::middleware(['auth'])->group(function () {
     Route::post('events/{event}/clone', [\App\Http\Controllers\EventController::class, 'cloneEvent'])
         ->name('events.clone');
 
+    // Feedback routes
+    Route::resource('feedback', \App\Http\Controllers\FeedbackController::class);
+    Route::get('feedback/{feedback}/qr-code', [\App\Http\Controllers\FeedbackController::class, 'showQrCode'])
+        ->name('feedback.qrcode');
+    Route::post('feedback/{feedback}/toggle-active', [\App\Http\Controllers\FeedbackController::class, 'toggleActive'])
+        ->name('feedback.toggle-active');
+
     // Attendee routes
     Route::get('events/{event}/attendees/create', [\App\Http\Controllers\AttendeeController::class, 'create'])
         ->name('attendees.create');
@@ -49,5 +56,11 @@ Route::post('attend/{token}', [\App\Http\Controllers\AttendanceController::class
     ->name('attendance.mark-present');
 Route::get('attend/{token}/confirmation/{attendee}', [\App\Http\Controllers\AttendanceController::class, 'confirmation'])
     ->name('attendance.confirmation');
+
+// Public feedback routes (no authentication required)
+Route::get('public-feedback/{token}', [\App\Http\Controllers\FeedbackResponseController::class, 'show'])
+    ->name('feedback.public');
+Route::post('public-feedback/{token}', [\App\Http\Controllers\FeedbackResponseController::class, 'store'])
+    ->name('feedback.submit');
 
 require __DIR__ . '/auth.php';
