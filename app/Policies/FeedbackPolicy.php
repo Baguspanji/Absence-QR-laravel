@@ -21,7 +21,7 @@ class FeedbackPolicy
      */
     public function view(User $user, Feedback $feedback): bool
     {
-        return $user->id === $feedback->user_id;
+        return $user->id == $feedback->user_id;
     }
 
     /**
@@ -37,7 +37,7 @@ class FeedbackPolicy
      */
     public function update(User $user, Feedback $feedback): bool
     {
-        return $user->id === $feedback->user_id;
+        return $user->id == $feedback->user_id;
     }
 
     /**
@@ -45,7 +45,7 @@ class FeedbackPolicy
      */
     public function delete(User $user, Feedback $feedback): bool
     {
-        return $user->id === $feedback->user_id;
+        return $user->id == $feedback->user_id;
     }
 
     /**
@@ -53,7 +53,7 @@ class FeedbackPolicy
      */
     public function restore(User $user, Feedback $feedback): bool
     {
-        return $user->id === $feedback->user_id;
+        return $user->id == $feedback->user_id;
     }
 
     /**
@@ -61,6 +61,6 @@ class FeedbackPolicy
      */
     public function forceDelete(User $user, Feedback $feedback): bool
     {
-        return $user->id === $feedback->user_id;
+        return $user->id == $feedback->user_id;
     }
 }
